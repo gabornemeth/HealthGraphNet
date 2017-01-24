@@ -9,7 +9,6 @@ namespace HealthGraphNet.Models
     /// </summary>
     public class FitnessActivitiesFeedItemModel : FitnessActivitiesItemModel, IFeedModelItem
     {
-       
         /// <summary>
         /// The URI of the detailed information for the past activity.  Read only.
         /// </summary>

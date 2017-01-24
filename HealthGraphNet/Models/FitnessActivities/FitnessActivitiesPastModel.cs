@@ -4,16 +4,10 @@ using Newtonsoft.Json;
 
 namespace HealthGraphNet.Models
 {
-    public class FitnessActivitiesPastModel : FitnessActivitiesItemModel, IFitnessActivitiesModel
+    public class FitnessActivitiesPastModel : FitnessActivitiesFeedItemModel, IFitnessActivitiesModel
     {
         internal const string ContentType = "application/vnd.com.runkeeper.FitnessActivity+json";
                 
-        /// <summary>
-        /// The URI for this activity. Read only.
-        /// </summary>
-        [JsonProperty(PropertyName = "uri")]                
-        public string Uri { get; internal set; }
-
         /// <summary>
         /// The unique ID of the user for the activity. Read only
         /// </summary>
