@@ -12,7 +12,7 @@ using HealthGraphNet.Tests.Unit.RestSharp;
 namespace HealthGraphNet.Tests.Integration
 {
     [TestFixture]
-    public abstract class ClientSetupBase
+    public class ClientSetup
     {
         #region Fields, Properties and Setup.
 
@@ -29,7 +29,7 @@ namespace HealthGraphNet.Tests.Integration
             }
         }
 
-        public Client TokenManager { get; set; }
+        public Client Client { get; set; }
 
         /// <summary>
         /// Prior to any other setup make sure that ClientId, ClientSecret, RequestUri and AccessToken have been defined.
@@ -39,7 +39,7 @@ namespace HealthGraphNet.Tests.Integration
         public void Init()
         {
             var authenticator = new StaticAuthenticator() { AccessToken = AccessToken };
-            TokenManager = new Client(authenticator);
+            Client = new Client(authenticator);
         }
 
         #endregion

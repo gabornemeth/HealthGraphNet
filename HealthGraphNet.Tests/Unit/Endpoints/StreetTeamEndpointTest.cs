@@ -19,8 +19,8 @@ namespace HealthGraphNet.Tests.Unit
         {
             //Arrange
             var validPath = "/test/";
-            Mock<ClientStub> tokenManager = new Mock<ClientStub>();
-            StreetTeamEndpoint streetTeamRequest = new StreetTeamEndpoint(tokenManager.Object, new UsersModel { Team = validPath });
+            var client = new Mock<ClientStub>();
+            StreetTeamEndpoint streetTeamRequest = new StreetTeamEndpoint(client.Object, new UsersModel { Team = validPath });
             //Act and Assert
             Assert.DoesNotThrowAsync(async () => { await streetTeamRequest.GetStreetTeam(validPath); });
         }
@@ -30,8 +30,8 @@ namespace HealthGraphNet.Tests.Unit
         {
             //Arrange
             var validPath = "/test/";
-            Mock<ClientStub> tokenManager = new Mock<ClientStub>();
-            StreetTeamEndpoint streetTeamRequest = new StreetTeamEndpoint(tokenManager.Object, new UsersModel { Team = validPath });
+            var client = new Mock<ClientStub>();
+            StreetTeamEndpoint streetTeamRequest = new StreetTeamEndpoint(client.Object, new UsersModel { Team = validPath });
             //Act and Assert
             Assert.ThrowsAsync(typeof(ArgumentException), async () => { await streetTeamRequest.GetStreetTeam("Not validPath."); });
         }

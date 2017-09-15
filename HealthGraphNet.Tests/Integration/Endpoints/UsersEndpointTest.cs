@@ -1,16 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using NUnit.Framework;
-using HealthGraphNet;
-using HealthGraphNet.Models;
+﻿using NUnit.Framework;
 using System.Threading.Tasks;
 
 namespace HealthGraphNet.Tests.Integration
 {
     [TestFixture()]
-    public class UsersEndpointTest : ClientSetupBase
+    public class UsersEndpointTest : ClientSetup
     {        
         #region Tests
 
@@ -18,7 +12,7 @@ namespace HealthGraphNet.Tests.Integration
         public async Task GetUser_NotOptionalProperiesPresent()
         {
             //Arrange
-            var userRequest = new UsersEndpoint(TokenManager);
+            var userRequest = new UsersEndpoint(Client);
             //Act
             var user = await userRequest.GetUser();
             //Assert

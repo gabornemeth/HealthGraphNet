@@ -1,10 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Net;
-using System.Linq;
-using System.Text;
 using RestSharp.Portable;
-using HealthGraphNet;
 using System.Threading.Tasks;
 
 namespace HealthGraphNet.Tests.Unit
@@ -14,26 +10,27 @@ namespace HealthGraphNet.Tests.Unit
     /// </summary>
     public class ClientStub : Client
     {
-        public ClientStub() : base(null)
+        public ClientStub() : base(null, new StubRequestExecutor())
         {
         }
 
-        #region IRequest Execution
-
-        internal override async Task<T> Execute<T>(IRestRequest request, string baseUrl = null, HttpStatusCode? expectedStatusCode = null)
+        private class StubRequestExecutor : IRequestExecutor
         {
-            return new T();
-        }
+            public Task<T> Execute<T>(IRestRequest request, string baseUrl = null, HttpStatusCode? expectedStatusCode = null) where T : new()
+            {
+                return Task.FromResult(new T());
+            }
 
-        internal override async Task Execute(IRestRequest request, string baseUrl = null, HttpStatusCode? expectedStatusCode = null)
-        {
-        }
+            public Task Execute(IRestRequest request, string baseUrl = null, HttpStatusCode? expectedStatusCode = null)
+            {
+                return Task.Run(() => { });
+            }
 
-        internal override async Task<string> ExecuteCreate(IRestRequest request, string baseUrl = null)
-        {
-            return string.Empty;
-        }
+            public Task<string> ExecuteCreate(IRestRequest request, string baseUrl = null)
+            {
+                return Task.FromResult(string.Empty);
+            }
 
-        #endregion          
+        }
     }
 }

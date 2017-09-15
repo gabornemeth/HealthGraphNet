@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 namespace HealthGraphNet.Tests.Integration
 {
     [TestFixture()]
-    public class FitnessActivitiesEndpointTest : ClientSetupBase
+    public class FitnessActivitiesEndpointTest : ClientSetup
     {
         #region Fields, Properties and Setup
 
@@ -19,13 +19,13 @@ namespace HealthGraphNet.Tests.Integration
         protected IFitnessActivitiesEndpoint ActivitiesRequest { get; set; }
 
         [SetUp]
-        public void Init()
+        public void Setup()
         {
-            UserRequest = new UsersEndpoint(TokenManager);
+            UserRequest = new UsersEndpoint(Client);
             var taskUser = UserRequest.GetUser();
             taskUser.Wait();
             var user = taskUser.Result;
-            ActivitiesRequest = new FitnessActivitiesEndpoint(TokenManager, user);
+            ActivitiesRequest = new FitnessActivitiesEndpoint(Client, user);
         }
 
         #endregion

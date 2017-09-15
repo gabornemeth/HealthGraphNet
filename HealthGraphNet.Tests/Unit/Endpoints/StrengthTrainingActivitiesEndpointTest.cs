@@ -101,8 +101,8 @@ namespace HealthGraphNet.Tests.Unit
         {
             //Arrange
             var validPath = "/test/";
-            Mock<ClientStub> tokenManager = new Mock<ClientStub>();
-            StrengthTrainingActivitiesEndpoint activitiesRequest = new StrengthTrainingActivitiesEndpoint(tokenManager.Object, new UsersModel { StrengthTrainingActivities = validPath });
+            var client = new Mock<ClientStub>();
+            StrengthTrainingActivitiesEndpoint activitiesRequest = new StrengthTrainingActivitiesEndpoint(client.Object, new UsersModel { StrengthTrainingActivities = validPath });
             //Act and Assert
             Assert.DoesNotThrowAsync(async () => { await activitiesRequest.GetActivity(validPath); });
         }
@@ -112,8 +112,8 @@ namespace HealthGraphNet.Tests.Unit
         {
             //Arrange
             var validPath = "/test/";
-            Mock<ClientStub> tokenManager = new Mock<ClientStub>();
-            StrengthTrainingActivitiesEndpoint activitiesRequest = new StrengthTrainingActivitiesEndpoint(tokenManager.Object, new UsersModel { StrengthTrainingActivities = validPath });
+            var client = new Mock<ClientStub>();
+            StrengthTrainingActivitiesEndpoint activitiesRequest = new StrengthTrainingActivitiesEndpoint(client.Object, new UsersModel { StrengthTrainingActivities = validPath });
             //Act and Assert
             Assert.ThrowsAsync(typeof(ArgumentException), async () => { await activitiesRequest.GetActivity("Not validPath."); });
         }
@@ -123,8 +123,8 @@ namespace HealthGraphNet.Tests.Unit
         {
             //Arrange
             var validPath = "/test/";
-            Mock<ClientStub> tokenManager = new Mock<ClientStub>();
-            StrengthTrainingActivitiesEndpoint activitiesRequest = new StrengthTrainingActivitiesEndpoint(tokenManager.Object, new UsersModel { StrengthTrainingActivities = validPath });
+            var client = new Mock<ClientStub>();
+            StrengthTrainingActivitiesEndpoint activitiesRequest = new StrengthTrainingActivitiesEndpoint(client.Object, new UsersModel { StrengthTrainingActivities = validPath });
             //Act and Assert
             Assert.DoesNotThrowAsync(async () => { await activitiesRequest.DeleteActivity(validPath); });
         }
@@ -134,8 +134,8 @@ namespace HealthGraphNet.Tests.Unit
         {
             //Arrange
             var validPath = "/test/";
-            Mock<ClientStub> tokenManager = new Mock<ClientStub>();
-            StrengthTrainingActivitiesEndpoint activitiesRequest = new StrengthTrainingActivitiesEndpoint(tokenManager.Object, new UsersModel { StrengthTrainingActivities = validPath });
+            var client = new Mock<ClientStub>();
+            StrengthTrainingActivitiesEndpoint activitiesRequest = new StrengthTrainingActivitiesEndpoint(client.Object, new UsersModel { StrengthTrainingActivities = validPath });
             //Act and Assert
             Assert.ThrowsAsync(typeof(ArgumentException), async () => { await activitiesRequest.DeleteActivity("Not validPath."); });
         }
@@ -144,8 +144,8 @@ namespace HealthGraphNet.Tests.Unit
         public void UpdateActivity_AllPropertiesValid_DoesNotThrowArgumentException()
         {
             //Arrange
-            Mock<ClientStub> tokenManager = new Mock<ClientStub>();
-            StrengthTrainingActivitiesEndpoint activitiesRequest = new StrengthTrainingActivitiesEndpoint(tokenManager.Object, new UsersModel());
+            var client = new Mock<ClientStub>();
+            StrengthTrainingActivitiesEndpoint activitiesRequest = new StrengthTrainingActivitiesEndpoint(client.Object, new UsersModel());
             //Act and Assert
             Assert.DoesNotThrowAsync(async () => { await activitiesRequest.UpdateActivity(ValidActivity); });
         }
@@ -154,8 +154,8 @@ namespace HealthGraphNet.Tests.Unit
         public void UpdateActivity_NotesNull_DoesNotThrowArgumentException()
         {
             //Arrange
-            Mock<ClientStub> tokenManager = new Mock<ClientStub>();
-            StrengthTrainingActivitiesEndpoint activitiesRequest = new StrengthTrainingActivitiesEndpoint(tokenManager.Object, new UsersModel());
+            var client = new Mock<ClientStub>();
+            StrengthTrainingActivitiesEndpoint activitiesRequest = new StrengthTrainingActivitiesEndpoint(client.Object, new UsersModel());
             //Act
             ValidActivity.Notes = null;
             //Assert
@@ -166,8 +166,8 @@ namespace HealthGraphNet.Tests.Unit
         public void UpdateActivity_NotesTenThousandTwentyFiveCharacters_ArgumentException()
         {
             //Arrange
-            Mock<ClientStub> tokenManager = new Mock<ClientStub>();
-            StrengthTrainingActivitiesEndpoint activitiesRequest = new StrengthTrainingActivitiesEndpoint(tokenManager.Object, new UsersModel());
+            var client = new Mock<ClientStub>();
+            StrengthTrainingActivitiesEndpoint activitiesRequest = new StrengthTrainingActivitiesEndpoint(client.Object, new UsersModel());
             //Act
             string charactersCount1025 = string.Empty;
             for (var count = 0; count <= 1024; count++)
@@ -184,8 +184,8 @@ namespace HealthGraphNet.Tests.Unit
         public void UpdateActivity_ExercisesNull_ArgumentException()
         {
             //Arrange
-            Mock<ClientStub> tokenManager = new Mock<ClientStub>();
-            StrengthTrainingActivitiesEndpoint activitiesRequest = new StrengthTrainingActivitiesEndpoint(tokenManager.Object, new UsersModel());
+            var client = new Mock<ClientStub>();
+            StrengthTrainingActivitiesEndpoint activitiesRequest = new StrengthTrainingActivitiesEndpoint(client.Object, new UsersModel());
             //Act
             ValidActivity.Exercises = null;
             //Assert
@@ -196,8 +196,8 @@ namespace HealthGraphNet.Tests.Unit
         public void UpdateActivity_ExercisesEmptyList_ArgumentException()
         {
             //Arrange
-            Mock<ClientStub> tokenManager = new Mock<ClientStub>();
-            StrengthTrainingActivitiesEndpoint activitiesRequest = new StrengthTrainingActivitiesEndpoint(tokenManager.Object, new UsersModel());
+            var client = new Mock<ClientStub>();
+            StrengthTrainingActivitiesEndpoint activitiesRequest = new StrengthTrainingActivitiesEndpoint(client.Object, new UsersModel());
             //Act
             ValidActivity.Exercises = new List<ExercisesModel>();
             //Assert
@@ -209,8 +209,8 @@ namespace HealthGraphNet.Tests.Unit
         public void UpdateActivity_ExercisePrimaryTypeNotValid_ArgumentException()
         {
             //Arrange
-            Mock<ClientStub> tokenManager = new Mock<ClientStub>();
-            StrengthTrainingActivitiesEndpoint activitiesRequest = new StrengthTrainingActivitiesEndpoint(tokenManager.Object, new UsersModel());
+            var client = new Mock<ClientStub>();
+            StrengthTrainingActivitiesEndpoint activitiesRequest = new StrengthTrainingActivitiesEndpoint(client.Object, new UsersModel());
             //Act
             ValidActivity.Exercises.First().PrimaryType = "Not a valid exercise type.";
             //Assert
@@ -221,8 +221,8 @@ namespace HealthGraphNet.Tests.Unit
         public void UpdateActivity_ExercisePrimaryMuscleGroupNotValid_ArgumentException()
         {
             //Arrange
-            Mock<ClientStub> tokenManager = new Mock<ClientStub>();
-            StrengthTrainingActivitiesEndpoint activitiesRequest = new StrengthTrainingActivitiesEndpoint(tokenManager.Object, new UsersModel());
+            var client = new Mock<ClientStub>();
+            StrengthTrainingActivitiesEndpoint activitiesRequest = new StrengthTrainingActivitiesEndpoint(client.Object, new UsersModel());
             //Act
             ValidActivity.Exercises.First().PrimaryMuscleGroup = "Not a valid muscle group.";
             //Assert
@@ -233,8 +233,8 @@ namespace HealthGraphNet.Tests.Unit
         public void UpdateActivity_ExerciseSecondaryMuscleGroupNull_DoesNotThrowArgumentException()
         {
             //Arrange
-            Mock<ClientStub> tokenManager = new Mock<ClientStub>();
-            StrengthTrainingActivitiesEndpoint activitiesRequest = new StrengthTrainingActivitiesEndpoint(tokenManager.Object, new UsersModel());
+            var client = new Mock<ClientStub>();
+            StrengthTrainingActivitiesEndpoint activitiesRequest = new StrengthTrainingActivitiesEndpoint(client.Object, new UsersModel());
             //Act
             ValidActivity.Exercises.First().SecondaryMuscleGroup = null;
             //Assert
@@ -245,8 +245,8 @@ namespace HealthGraphNet.Tests.Unit
         public void UpdateActivity_ExerciseSecondaryMuscleGroupNotValid_ArgumentException()
         {
             //Arrange
-            Mock<ClientStub> tokenManager = new Mock<ClientStub>();
-            StrengthTrainingActivitiesEndpoint activitiesRequest = new StrengthTrainingActivitiesEndpoint(tokenManager.Object, new UsersModel());
+            var client = new Mock<ClientStub>();
+            StrengthTrainingActivitiesEndpoint activitiesRequest = new StrengthTrainingActivitiesEndpoint(client.Object, new UsersModel());
             //Act
             ValidActivity.Exercises.First().SecondaryMuscleGroup = "Not a valid muscle group.";
             //Assert
@@ -257,8 +257,8 @@ namespace HealthGraphNet.Tests.Unit
         public void UpdateActivity_ExerciseRoutineNull_DoesNotThrowArgumentException()
         {
             //Arrange
-            Mock<ClientStub> tokenManager = new Mock<ClientStub>();
-            StrengthTrainingActivitiesEndpoint activitiesRequest = new StrengthTrainingActivitiesEndpoint(tokenManager.Object, new UsersModel());
+            var client = new Mock<ClientStub>();
+            StrengthTrainingActivitiesEndpoint activitiesRequest = new StrengthTrainingActivitiesEndpoint(client.Object, new UsersModel());
             //Act
             ValidActivity.Exercises.First().Routine = null;
             //Assert
@@ -269,8 +269,8 @@ namespace HealthGraphNet.Tests.Unit
         public void UpdateActivity_ExerciseRoutineThirtyThreeCharacters_ArgumentException()
         {
             //Arrange
-            Mock<ClientStub> tokenManager = new Mock<ClientStub>();
-            StrengthTrainingActivitiesEndpoint activitiesRequest = new StrengthTrainingActivitiesEndpoint(tokenManager.Object, new UsersModel());
+            var client = new Mock<ClientStub>();
+            StrengthTrainingActivitiesEndpoint activitiesRequest = new StrengthTrainingActivitiesEndpoint(client.Object, new UsersModel());
             //Act
             string charactersCount33 = string.Empty;
             for (var count = 0; count <= 32; count++)
@@ -287,8 +287,8 @@ namespace HealthGraphNet.Tests.Unit
         public void UpdateActivity_ExerciseNotesNull_DoesNotThrowArgumentException()
         {
             //Arrange
-            Mock<ClientStub> tokenManager = new Mock<ClientStub>();
-            StrengthTrainingActivitiesEndpoint activitiesRequest = new StrengthTrainingActivitiesEndpoint(tokenManager.Object, new UsersModel());
+            var client = new Mock<ClientStub>();
+            StrengthTrainingActivitiesEndpoint activitiesRequest = new StrengthTrainingActivitiesEndpoint(client.Object, new UsersModel());
             //Act
             ValidActivity.Exercises.First().Notes = null;
             //Assert
@@ -299,8 +299,8 @@ namespace HealthGraphNet.Tests.Unit
         public void UpdateActivity_ExerciseNotesTenThousandTwentyFiveCharacters_ArgumentException()
         {
             //Arrange
-            Mock<ClientStub> tokenManager = new Mock<ClientStub>();
-            StrengthTrainingActivitiesEndpoint activitiesRequest = new StrengthTrainingActivitiesEndpoint(tokenManager.Object, new UsersModel());
+            var client = new Mock<ClientStub>();
+            StrengthTrainingActivitiesEndpoint activitiesRequest = new StrengthTrainingActivitiesEndpoint(client.Object, new UsersModel());
             //Act
             string charactersCount1025 = string.Empty;
             for (var count = 0; count <= 1024; count++)
@@ -317,8 +317,8 @@ namespace HealthGraphNet.Tests.Unit
         public void UpdateActivity_ExerciseSetNull_ArgumentException()
         {
             //Arrange
-            Mock<ClientStub> tokenManager = new Mock<ClientStub>();
-            StrengthTrainingActivitiesEndpoint activitiesRequest = new StrengthTrainingActivitiesEndpoint(tokenManager.Object, new UsersModel());
+            var client = new Mock<ClientStub>();
+            StrengthTrainingActivitiesEndpoint activitiesRequest = new StrengthTrainingActivitiesEndpoint(client.Object, new UsersModel());
             //Act
             ValidActivity.Exercises.First().Sets = null;
             //Assert
@@ -329,8 +329,8 @@ namespace HealthGraphNet.Tests.Unit
         public void UpdateActivity_ExerciseSetEmptyList_ArgumentException()
         {
             //Arrange
-            Mock<ClientStub> tokenManager = new Mock<ClientStub>();
-            StrengthTrainingActivitiesEndpoint activitiesRequest = new StrengthTrainingActivitiesEndpoint(tokenManager.Object, new UsersModel());
+            var client = new Mock<ClientStub>();
+            StrengthTrainingActivitiesEndpoint activitiesRequest = new StrengthTrainingActivitiesEndpoint(client.Object, new UsersModel());
             //Act
             ValidActivity.Exercises.First().Sets = new List<SetsModel>();
             //Assert
@@ -342,8 +342,8 @@ namespace HealthGraphNet.Tests.Unit
         public void UpdateActivity_ExerciseSetNotesNull_DoesNotThrowArgumentException()
         {
             //Arrange
-            Mock<ClientStub> tokenManager = new Mock<ClientStub>();
-            StrengthTrainingActivitiesEndpoint activitiesRequest = new StrengthTrainingActivitiesEndpoint(tokenManager.Object, new UsersModel());
+            var client = new Mock<ClientStub>();
+            StrengthTrainingActivitiesEndpoint activitiesRequest = new StrengthTrainingActivitiesEndpoint(client.Object, new UsersModel());
             //Act
             ValidActivity.Exercises.First().Sets.First().Notes = null;
             //Assert
@@ -354,8 +354,8 @@ namespace HealthGraphNet.Tests.Unit
         public void UpdateActivity_ExerciseSetNotesTenThousandTwentyFiveCharacters_ArgumentException()
         {
             //Arrange
-            Mock<ClientStub> tokenManager = new Mock<ClientStub>();
-            StrengthTrainingActivitiesEndpoint activitiesRequest = new StrengthTrainingActivitiesEndpoint(tokenManager.Object, new UsersModel());
+            var client = new Mock<ClientStub>();
+            StrengthTrainingActivitiesEndpoint activitiesRequest = new StrengthTrainingActivitiesEndpoint(client.Object, new UsersModel());
             //Act
             string charactersCount1025 = string.Empty;
             for (var count = 0; count <= 1024; count++)
@@ -372,8 +372,8 @@ namespace HealthGraphNet.Tests.Unit
         public void CreateActivity_AllPropertiesValid_DoesNotThrowArgumentException()
         {
             //Arrange
-            Mock<ClientStub> tokenManager = new Mock<ClientStub>();
-            StrengthTrainingActivitiesEndpoint activitiesRequest = new StrengthTrainingActivitiesEndpoint(tokenManager.Object, new UsersModel());
+            var client = new Mock<ClientStub>();
+            StrengthTrainingActivitiesEndpoint activitiesRequest = new StrengthTrainingActivitiesEndpoint(client.Object, new UsersModel());
             //Act and Assert
             Assert.DoesNotThrowAsync(async () => { await activitiesRequest.CreateActivity(ValidActivityNew); });
         }
@@ -382,8 +382,8 @@ namespace HealthGraphNet.Tests.Unit
         public void CreateActivity_NotesNull_DoesNotThrowArgumentException()
         {
             //Arrange
-            Mock<ClientStub> tokenManager = new Mock<ClientStub>();
-            StrengthTrainingActivitiesEndpoint activitiesRequest = new StrengthTrainingActivitiesEndpoint(tokenManager.Object, new UsersModel());
+            var client = new Mock<ClientStub>();
+            StrengthTrainingActivitiesEndpoint activitiesRequest = new StrengthTrainingActivitiesEndpoint(client.Object, new UsersModel());
             //Act
             ValidActivityNew.Notes = null;
             //Assert
@@ -394,8 +394,8 @@ namespace HealthGraphNet.Tests.Unit
         public void CreateActivity_NotesTenThousandTwentyFiveCharacters_ArgumentException()
         {
             //Arrange
-            Mock<ClientStub> tokenManager = new Mock<ClientStub>();
-            StrengthTrainingActivitiesEndpoint activitiesRequest = new StrengthTrainingActivitiesEndpoint(tokenManager.Object, new UsersModel());
+            var client = new Mock<ClientStub>();
+            StrengthTrainingActivitiesEndpoint activitiesRequest = new StrengthTrainingActivitiesEndpoint(client.Object, new UsersModel());
             //Act
             string charactersCount1025 = string.Empty;
             for (var count = 0; count <= 1024; count++)
@@ -412,8 +412,8 @@ namespace HealthGraphNet.Tests.Unit
         public void CreateActivity_ExercisesNull_ArgumentException()
         {
             //Arrange
-            Mock<ClientStub> tokenManager = new Mock<ClientStub>();
-            StrengthTrainingActivitiesEndpoint activitiesRequest = new StrengthTrainingActivitiesEndpoint(tokenManager.Object, new UsersModel());
+            var client = new Mock<ClientStub>();
+            StrengthTrainingActivitiesEndpoint activitiesRequest = new StrengthTrainingActivitiesEndpoint(client.Object, new UsersModel());
             //Act
             ValidActivityNew.Exercises = null;
             //Assert
@@ -424,8 +424,8 @@ namespace HealthGraphNet.Tests.Unit
         public void CreateActivity_ExercisesEmptyList_ArgumentException()
         {
             //Arrange
-            Mock<ClientStub> tokenManager = new Mock<ClientStub>();
-            StrengthTrainingActivitiesEndpoint activitiesRequest = new StrengthTrainingActivitiesEndpoint(tokenManager.Object, new UsersModel());
+            var client = new Mock<ClientStub>();
+            StrengthTrainingActivitiesEndpoint activitiesRequest = new StrengthTrainingActivitiesEndpoint(client.Object, new UsersModel());
             //Act
             ValidActivityNew.Exercises = new List<ExercisesModel>();
             //Assert
@@ -437,8 +437,8 @@ namespace HealthGraphNet.Tests.Unit
         public void CreateActivity_ExercisePrimaryTypeNotValid_ArgumentException()
         {
             //Arrange
-            Mock<ClientStub> tokenManager = new Mock<ClientStub>();
-            StrengthTrainingActivitiesEndpoint activitiesRequest = new StrengthTrainingActivitiesEndpoint(tokenManager.Object, new UsersModel());
+            var client = new Mock<ClientStub>();
+            StrengthTrainingActivitiesEndpoint activitiesRequest = new StrengthTrainingActivitiesEndpoint(client.Object, new UsersModel());
             //Act
             ValidActivityNew.Exercises.First().PrimaryType = "Not a valid exercise type.";
             //Assert
@@ -449,8 +449,8 @@ namespace HealthGraphNet.Tests.Unit
         public void CreateActivity_ExercisePrimaryMuscleGroupNotValid_ArgumentException()
         {
             //Arrange
-            Mock<ClientStub> tokenManager = new Mock<ClientStub>();
-            StrengthTrainingActivitiesEndpoint activitiesRequest = new StrengthTrainingActivitiesEndpoint(tokenManager.Object, new UsersModel());
+            var client = new Mock<ClientStub>();
+            StrengthTrainingActivitiesEndpoint activitiesRequest = new StrengthTrainingActivitiesEndpoint(client.Object, new UsersModel());
             //Act
             ValidActivityNew.Exercises.First().PrimaryMuscleGroup = "Not a valid muscle group.";
             //Assert
@@ -461,8 +461,8 @@ namespace HealthGraphNet.Tests.Unit
         public void CreateActivity_ExerciseSecondaryMuscleGroupNull_DoesNotThrowArgumentException()
         {
             //Arrange
-            Mock<ClientStub> tokenManager = new Mock<ClientStub>();
-            StrengthTrainingActivitiesEndpoint activitiesRequest = new StrengthTrainingActivitiesEndpoint(tokenManager.Object, new UsersModel());
+            var client = new Mock<ClientStub>();
+            StrengthTrainingActivitiesEndpoint activitiesRequest = new StrengthTrainingActivitiesEndpoint(client.Object, new UsersModel());
             //Act
             ValidActivityNew.Exercises.First().SecondaryMuscleGroup = null;
             //Assert
@@ -473,8 +473,8 @@ namespace HealthGraphNet.Tests.Unit
         public void CreateActivity_ExerciseSecondaryMuscleGroupNotValid_ArgumentException()
         {
             //Arrange
-            Mock<ClientStub> tokenManager = new Mock<ClientStub>();
-            StrengthTrainingActivitiesEndpoint activitiesRequest = new StrengthTrainingActivitiesEndpoint(tokenManager.Object, new UsersModel());
+            var client = new Mock<ClientStub>();
+            StrengthTrainingActivitiesEndpoint activitiesRequest = new StrengthTrainingActivitiesEndpoint(client.Object, new UsersModel());
             //Act
             ValidActivityNew.Exercises.First().SecondaryMuscleGroup = "Not a valid muscle group.";
             //Assert
@@ -485,8 +485,8 @@ namespace HealthGraphNet.Tests.Unit
         public void CreateActivity_ExerciseRoutineNull_DoesNotThrowArgumentException()
         {
             //Arrange
-            Mock<ClientStub> tokenManager = new Mock<ClientStub>();
-            StrengthTrainingActivitiesEndpoint activitiesRequest = new StrengthTrainingActivitiesEndpoint(tokenManager.Object, new UsersModel());
+            var client = new Mock<ClientStub>();
+            StrengthTrainingActivitiesEndpoint activitiesRequest = new StrengthTrainingActivitiesEndpoint(client.Object, new UsersModel());
             //Act
             ValidActivityNew.Exercises.First().Routine = null;
             //Assert
@@ -497,8 +497,8 @@ namespace HealthGraphNet.Tests.Unit
         public void CreateActivity_ExerciseRoutineThirtyThreeCharacters_ArgumentException()
         {
             //Arrange
-            Mock<ClientStub> tokenManager = new Mock<ClientStub>();
-            StrengthTrainingActivitiesEndpoint activitiesRequest = new StrengthTrainingActivitiesEndpoint(tokenManager.Object, new UsersModel());
+            var client = new Mock<ClientStub>();
+            StrengthTrainingActivitiesEndpoint activitiesRequest = new StrengthTrainingActivitiesEndpoint(client.Object, new UsersModel());
             //Act
             string charactersCount33 = string.Empty;
             for (var count = 0; count <= 32; count++)
@@ -515,8 +515,8 @@ namespace HealthGraphNet.Tests.Unit
         public void CreateActivity_ExerciseNotesNull_DoesNotThrowArgumentException()
         {
             //Arrange
-            Mock<ClientStub> tokenManager = new Mock<ClientStub>();
-            StrengthTrainingActivitiesEndpoint activitiesRequest = new StrengthTrainingActivitiesEndpoint(tokenManager.Object, new UsersModel());
+            var client = new Mock<ClientStub>();
+            StrengthTrainingActivitiesEndpoint activitiesRequest = new StrengthTrainingActivitiesEndpoint(client.Object, new UsersModel());
             //Act
             ValidActivityNew.Exercises.First().Notes = null;
             //Assert
@@ -527,8 +527,8 @@ namespace HealthGraphNet.Tests.Unit
         public void CreateActivity_ExerciseNotesTenThousandTwentyFiveCharacters_ArgumentException()
         {
             //Arrange
-            Mock<ClientStub> tokenManager = new Mock<ClientStub>();
-            StrengthTrainingActivitiesEndpoint activitiesRequest = new StrengthTrainingActivitiesEndpoint(tokenManager.Object, new UsersModel());
+            var client = new Mock<ClientStub>();
+            StrengthTrainingActivitiesEndpoint activitiesRequest = new StrengthTrainingActivitiesEndpoint(client.Object, new UsersModel());
             //Act
             string charactersCount1025 = string.Empty;
             for (var count = 0; count <= 1024; count++)
@@ -545,8 +545,8 @@ namespace HealthGraphNet.Tests.Unit
         public void CreateActivity_ExerciseSetNull_ArgumentException()
         {
             //Arrange
-            Mock<ClientStub> tokenManager = new Mock<ClientStub>();
-            StrengthTrainingActivitiesEndpoint activitiesRequest = new StrengthTrainingActivitiesEndpoint(tokenManager.Object, new UsersModel());
+            var client = new Mock<ClientStub>();
+            StrengthTrainingActivitiesEndpoint activitiesRequest = new StrengthTrainingActivitiesEndpoint(client.Object, new UsersModel());
             //Act
             ValidActivityNew.Exercises.First().Sets = null;
             //Assert
@@ -557,8 +557,8 @@ namespace HealthGraphNet.Tests.Unit
         public void CreateActivity_ExerciseSetEmptyList_ArgumentException()
         {
             //Arrange
-            Mock<ClientStub> tokenManager = new Mock<ClientStub>();
-            StrengthTrainingActivitiesEndpoint activitiesRequest = new StrengthTrainingActivitiesEndpoint(tokenManager.Object, new UsersModel());
+            var client = new Mock<ClientStub>();
+            StrengthTrainingActivitiesEndpoint activitiesRequest = new StrengthTrainingActivitiesEndpoint(client.Object, new UsersModel());
             //Act
             ValidActivityNew.Exercises.First().Sets = new List<SetsModel>();
             //Assert
@@ -570,8 +570,8 @@ namespace HealthGraphNet.Tests.Unit
         public void CreateActivity_ExerciseSetNotesNull_DoesNotThrowArgumentException()
         {
             //Arrange
-            Mock<ClientStub> tokenManager = new Mock<ClientStub>();
-            StrengthTrainingActivitiesEndpoint activitiesRequest = new StrengthTrainingActivitiesEndpoint(tokenManager.Object, new UsersModel());
+            var client = new Mock<ClientStub>();
+            StrengthTrainingActivitiesEndpoint activitiesRequest = new StrengthTrainingActivitiesEndpoint(client.Object, new UsersModel());
             //Act
             ValidActivityNew.Exercises.First().Sets.First().Notes = null;
             //Assert
@@ -582,8 +582,8 @@ namespace HealthGraphNet.Tests.Unit
         public void CreateActivity_ExerciseSetNotesTenThousandTwentyFiveCharacters_ArgumentException()
         {
             //Arrange
-            Mock<ClientStub> tokenManager = new Mock<ClientStub>();
-            StrengthTrainingActivitiesEndpoint activitiesRequest = new StrengthTrainingActivitiesEndpoint(tokenManager.Object, new UsersModel());
+            var client = new Mock<ClientStub>();
+            StrengthTrainingActivitiesEndpoint activitiesRequest = new StrengthTrainingActivitiesEndpoint(client.Object, new UsersModel());
             //Act
             string charactersCount1025 = string.Empty;
             for (var count = 0; count <= 1024; count++)

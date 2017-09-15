@@ -6,19 +6,14 @@ using RestSharp.Portable;
 using System.Net;
 using System.Threading.Tasks;
 using HealthGraphNet.RestSharp;
+using RestSharp.Portable.OAuth2;
 
 namespace HealthGraphNet.Samples.MonoTouch
 {
     class WebViewAuthenticator : OAuth2Authenticator
     {
         private HealthGraphClient _client;
-        public HealthGraphClient Client
-        {
-            get
-            {
-                return _client;
-            }
-        }
+        public new HealthGraphClient Client => _client;
 
         public WebViewAuthenticator(HealthGraphClient client) : base(client)
         {

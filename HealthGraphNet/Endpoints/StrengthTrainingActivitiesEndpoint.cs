@@ -2,11 +2,8 @@
 using System.Collections.Generic;
 using System.Net;
 using RestSharp.Portable;
-using RestSharp.Portable.Serializers;
 using HealthGraphNet.Models;
 using HealthGraphNet.RestSharp;
-using RestSharp.Portable;
-using System.Net.Http;
 using System.Threading.Tasks;
 
 namespace HealthGraphNet

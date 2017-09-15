@@ -9,6 +9,7 @@ using HealthGraphNet;
 using HealthGraphNet.Models;
 using System.Threading.Tasks;
 using HealthGraphNet.RestSharp;
+using RestSharp.Portable.OAuth2;
 
 namespace HealthGraphNet.Samples.Web
 {
@@ -85,7 +86,7 @@ namespace HealthGraphNet.Samples.Web
         //    }
         //}
 
-        protected AccessTokenManager TokenManager { get; set; }
+        protected Client TokenManager { get; set; }
 
         #endregion
 
@@ -98,25 +99,22 @@ namespace HealthGraphNet.Samples.Web
             //AAuthAnchor.HRef = authUrl;
 
             if (Authenticator == null)
-                Authenticator = new WebAuthenticator(HealthGraphClient.Create(ClientId, ClientSecret, RedirectUri));
+            {
+                var config = new global::RestSharp.Portable.OAuth2.Configuration.RuntimeClientConfiguration
+                {
+                    IsEnabled = false,
+                    ClientId = ClientId,
+                    ClientSecret = ClientSecret,
+                    RedirectUri = RedirectUri // $"{_httpContextAccessor.HttpContext.GetSiteRoot()}{redirectUrl}",
+                };
+
+                var oAuth2Client = new HealthGraphClient(new HttpRequestFactory(), config);
+                Authenticator = new WebAuthenticator(oAuth2Client);
+            }
             AAuthAnchor.HRef = await Authenticator.Client.GetLoginLinkUri();
-            TokenManager = new AccessTokenManager(Authenticator);
+            TokenManager = new Client(Authenticator);
 
             await Authenticator.OnPageLoaded(HttpContext.Current.Request.Url);
-
-            //Initialize the healthgraph api - get a token or use an existing one saved to session
-            //TokenManager = new AccessTokenManager(ClientId, ClientSecret, RedirectUri);
-            //if (string.IsNullOrEmpty(Code) == false)
-            //{
-            //    //If we set the code in the url string, get a new access token and save it to the session       
-            //    await TokenManager.InitAccessToken(Code);
-            //    Token = TokenManager.Token;
-            //}
-            //else if (Token != null)
-            //{
-            //    //Otherwise, if the access code saved in session is present we'll attempt to use that
-            //    TokenManager.Token = Token;
-            //}
 
             if (Authenticator.AccessToken != null)
             {

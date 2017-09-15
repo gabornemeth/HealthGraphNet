@@ -19,7 +19,7 @@ namespace HealthGraphNet.Tests.Unit
         {
             //Arrange
             Mock<AccessTokenManagerBaseStub> tokenManager = new Mock<AccessTokenManagerBaseStub>();
-            ProfileEndpoint profileRequest = new ProfileEndpoint(tokenManager.Object, new UsersModel());
+            ProfileEndpoint profileRequest = new ProfileEndpoint(client.Object, new UsersModel());
             //Act and Assert
             Assert.ThrowsAsync(typeof(ArgumentException), async () => { await profileRequest.UpdateProfile("This is not a valid Athlete Type."); });
         }
@@ -29,7 +29,7 @@ namespace HealthGraphNet.Tests.Unit
         {
             //Arrange
             Mock<AccessTokenManagerBaseStub> tokenManager = new Mock<AccessTokenManagerBaseStub>();
-            ProfileEndpoint profileRequest = new ProfileEndpoint(tokenManager.Object, new UsersModel());
+            ProfileEndpoint profileRequest = new ProfileEndpoint(client.Object, new UsersModel());
             //Act and Assert
             Assert.DoesNotThrowAsync(async () => { await profileRequest.UpdateProfile(ProfileEndpoint.ValidAthleteType.First()); });
         }

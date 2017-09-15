@@ -1,14 +1,8 @@
-﻿using RestSharp.Portable.Authenticators;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using RestSharp.Portable;
-using System.Net;
+﻿using System;
 using System.Threading.Tasks;
 using System.Diagnostics;
 using HealthGraphNet.RestSharp;
-using RestSharp.Portable.Authenticators.OAuth2.Infrastructure;
+using RestSharp.Portable.OAuth2.Infrastructure;
 
 namespace HealthGraphNet.Samples.Web
 {

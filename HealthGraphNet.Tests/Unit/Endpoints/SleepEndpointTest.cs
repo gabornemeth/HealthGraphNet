@@ -44,8 +44,8 @@ namespace HealthGraphNet.Tests.Unit
         {
             //Arrange
             var validPath = "/test/";
-            Mock<ClientStub> tokenManager = new Mock<ClientStub>();
-            SleepEndpoint sleepRequest = new SleepEndpoint(tokenManager.Object, new UsersModel { Sleep = validPath });
+            var client = new Mock<ClientStub>();
+            SleepEndpoint sleepRequest = new SleepEndpoint(client.Object, new UsersModel { Sleep = validPath });
             //Act and Assert
             Assert.DoesNotThrowAsync(async () => { await sleepRequest.GetSleep(validPath); });
         }
@@ -55,8 +55,8 @@ namespace HealthGraphNet.Tests.Unit
         {
             //Arrange
             var validPath = "/test/";
-            Mock<ClientStub> tokenManager = new Mock<ClientStub>();
-            SleepEndpoint sleepRequest = new SleepEndpoint(tokenManager.Object, new UsersModel { Sleep = validPath });
+            var client = new Mock<ClientStub>();
+            SleepEndpoint sleepRequest = new SleepEndpoint(client.Object, new UsersModel { Sleep = validPath });
             //Act and Assert
             Assert.ThrowsAsync(typeof(ArgumentException), async () => { await sleepRequest.GetSleep("Not validPath."); });
         }
@@ -66,8 +66,8 @@ namespace HealthGraphNet.Tests.Unit
         {
             //Arrange
             var validPath = "/test/";
-            Mock<ClientStub> tokenManager = new Mock<ClientStub>();
-            SleepEndpoint sleepRequest = new SleepEndpoint(tokenManager.Object, new UsersModel { Sleep = validPath });
+            var client = new Mock<ClientStub>();
+            SleepEndpoint sleepRequest = new SleepEndpoint(client.Object, new UsersModel { Sleep = validPath });
             //Act and Assert
             Assert.DoesNotThrowAsync(async () => { await sleepRequest.DeleteSleep(validPath); });
         }
@@ -77,8 +77,8 @@ namespace HealthGraphNet.Tests.Unit
         {
             //Arrange
             var validPath = "/test/";
-            Mock<ClientStub> tokenManager = new Mock<ClientStub>();
-            SleepEndpoint sleepRequest = new SleepEndpoint(tokenManager.Object, new UsersModel { Sleep = validPath });
+            var client = new Mock<ClientStub>();
+            SleepEndpoint sleepRequest = new SleepEndpoint(client.Object, new UsersModel { Sleep = validPath });
             //Act and Assert
             Assert.ThrowsAsync(typeof(ArgumentException), async () => { await sleepRequest.DeleteSleep("Not validPath."); });
         }
@@ -87,8 +87,8 @@ namespace HealthGraphNet.Tests.Unit
         public void UpdateSleep_AllPropertiesValid_DoesNotThrowArgumentException()
         {
             //Arrange
-            Mock<ClientStub> tokenManager = new Mock<ClientStub>();
-            SleepEndpoint sleepRequest = new SleepEndpoint(tokenManager.Object, new UsersModel());
+            var client = new Mock<ClientStub>();
+            SleepEndpoint sleepRequest = new SleepEndpoint(client.Object, new UsersModel());
             //Act and Assert
             Assert.DoesNotThrowAsync(async () => { await sleepRequest.UpdateSleep(ValidSleep); });
         }
@@ -97,8 +97,8 @@ namespace HealthGraphNet.Tests.Unit
         public void UpdateSleep_AllMeasurementsNull_ArgumentException()
         {
             //Arrange
-            Mock<ClientStub> tokenManager = new Mock<ClientStub>();
-            SleepEndpoint sleepRequest = new SleepEndpoint(tokenManager.Object, new UsersModel());
+            var client = new Mock<ClientStub>();
+            SleepEndpoint sleepRequest = new SleepEndpoint(client.Object, new UsersModel());
             //Act
             ValidSleep.Awake = null;
             ValidSleep.Deep = null;
@@ -114,8 +114,8 @@ namespace HealthGraphNet.Tests.Unit
         public void CreateSleep_AllPropertiesValid_DoesNotThrowArgumentException()
         {
             //Arrange
-            Mock<ClientStub> tokenManager = new Mock<ClientStub>();
-            SleepEndpoint sleepRequest = new SleepEndpoint(tokenManager.Object, new UsersModel());
+            var client = new Mock<ClientStub>();
+            SleepEndpoint sleepRequest = new SleepEndpoint(client.Object, new UsersModel());
             //Act and Assert
             Assert.DoesNotThrowAsync(async () => { await sleepRequest.CreateSleep(ValidSleepNew); });
         }
@@ -124,8 +124,8 @@ namespace HealthGraphNet.Tests.Unit
         public void CreateSleep_AllMeasurementsNull_ArgumentException()
         {
             //Arrange
-            Mock<ClientStub> tokenManager = new Mock<ClientStub>();
-            SleepEndpoint sleepRequest = new SleepEndpoint(tokenManager.Object, new UsersModel());
+            var client = new Mock<ClientStub>();
+            SleepEndpoint sleepRequest = new SleepEndpoint(client.Object, new UsersModel());
             //Act
             ValidSleepNew.Awake = null;
             ValidSleepNew.Deep = null;

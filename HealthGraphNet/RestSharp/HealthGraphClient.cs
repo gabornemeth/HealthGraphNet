@@ -89,7 +89,7 @@ namespace HealthGraphNet.RestSharp
         protected void AddAuthorizationHeaderToRequest(IRestRequest request)
         {
             request.AddHeader("Authorization", "Bearer " + AccessToken);
-            request.AddHeader("Accept", "application/vnd.com.runkeeper.User+json");
+            //request.AddHeader("Accept", "application/vnd.com.runkeeper.User+json");
         }
 
         protected override Endpoint UserInfoServiceEndpoint

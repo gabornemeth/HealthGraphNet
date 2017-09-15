@@ -40,6 +40,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Endpoints\UsersEndpoint.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Endpoints\WeightEndpoint.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)HealthGraphException.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)IRequestExecutor.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\AccessTokenModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\BackgroundActivities\BackgroundActivitiesFeedItemModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\BackgroundActivities\BackgroundActivitiesModelBase.cs" />
@@ -108,6 +109,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)RestSharp\JsonNETDeserializer.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)RestSharp\JsonNETSerializer.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)RestSharp\OAuth2RequestHeaderAuthenticator.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)RestSharp\HttpRequestFactory.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)RestSharp\StaticAuthenticator.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)RestSharp\ValidateHelper.cs" />
   </ItemGroup>

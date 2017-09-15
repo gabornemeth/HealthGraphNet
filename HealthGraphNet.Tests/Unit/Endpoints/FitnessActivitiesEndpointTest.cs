@@ -98,8 +98,8 @@ namespace HealthGraphNet.Tests.Unit
         {
             //Arrange
             var validPath = "/test/";
-            Mock<ClientStub> tokenManager = new Mock<ClientStub>();
-            FitnessActivitiesEndpoint activitiesRequest = new FitnessActivitiesEndpoint(tokenManager.Object, new UsersModel { FitnessActivities = validPath });
+            var client = new Mock<ClientStub>();
+            FitnessActivitiesEndpoint activitiesRequest = new FitnessActivitiesEndpoint(client.Object, new UsersModel { FitnessActivities = validPath });
             //Act and Assert
             Assert.DoesNotThrowAsync(async () => { await activitiesRequest.GetActivity(validPath); });
         }
@@ -109,8 +109,8 @@ namespace HealthGraphNet.Tests.Unit
         {
             //Arrange
             var validPath = "/test/";
-            Mock<ClientStub> tokenManager = new Mock<ClientStub>();
-            FitnessActivitiesEndpoint activitiesRequest = new FitnessActivitiesEndpoint(tokenManager.Object, new UsersModel { FitnessActivities = validPath });
+            var client = new Mock<ClientStub>();
+            FitnessActivitiesEndpoint activitiesRequest = new FitnessActivitiesEndpoint(client.Object, new UsersModel { FitnessActivities = validPath });
             //Act and Assert
             Assert.ThrowsAsync(typeof(ArgumentException), async () => { await activitiesRequest.GetActivity("Not validPath."); });
         }
@@ -121,8 +121,8 @@ namespace HealthGraphNet.Tests.Unit
         {
             //Arrange
             var validPath = "/test/";
-            Mock<ClientStub> tokenManager = new Mock<ClientStub>();
-            FitnessActivitiesEndpoint activitiesRequest = new FitnessActivitiesEndpoint(tokenManager.Object, new UsersModel { FitnessActivities = validPath });
+            var client = new Mock<ClientStub>();
+            FitnessActivitiesEndpoint activitiesRequest = new FitnessActivitiesEndpoint(client.Object, new UsersModel { FitnessActivities = validPath });
             //Act and Assert
             Assert.DoesNotThrowAsync(async () => { await activitiesRequest.DeleteActivity(validPath); });
         }
@@ -132,8 +132,8 @@ namespace HealthGraphNet.Tests.Unit
         {
             //Arrange
             var validPath = "/test/";
-            Mock<ClientStub> tokenManager = new Mock<ClientStub>();
-            FitnessActivitiesEndpoint activitiesRequest = new FitnessActivitiesEndpoint(tokenManager.Object, new UsersModel { FitnessActivities = validPath });
+            var client = new Mock<ClientStub>();
+            FitnessActivitiesEndpoint activitiesRequest = new FitnessActivitiesEndpoint(client.Object, new UsersModel { FitnessActivities = validPath });
             //Act and Assert
             Assert.ThrowsAsync(typeof(ArgumentException), async () => { await activitiesRequest.DeleteActivity("Not validPath."); });
         }
@@ -142,8 +142,8 @@ namespace HealthGraphNet.Tests.Unit
         public void UpdateActivity_AllPropertiesValid_DoesNotThrowArgumentException()
         {
             //Arrange
-            Mock<ClientStub> tokenManager = new Mock<ClientStub>();
-            FitnessActivitiesEndpoint activitiesRequest = new FitnessActivitiesEndpoint(tokenManager.Object, new UsersModel());
+            var client = new Mock<ClientStub>();
+            FitnessActivitiesEndpoint activitiesRequest = new FitnessActivitiesEndpoint(client.Object, new UsersModel());
             //Act and Assert
             Assert.DoesNotThrowAsync(async () => { await activitiesRequest.UpdateActivity(ValidActivity); });
         }
@@ -153,7 +153,7 @@ namespace HealthGraphNet.Tests.Unit
         //{
         //    //Arrange
         //    Mock<AccessTokenManagerBaseStub> tokenManager = new Mock<AccessTokenManagerBaseStub>();
-        //    FitnessActivitiesEndpoint activitiesRequest = new FitnessActivitiesEndpoint(tokenManager.Object, new UsersModel());
+        //    FitnessActivitiesEndpoint activitiesRequest = new FitnessActivitiesEndpoint(client.Object, new UsersModel());
         //    //Act
         //    ValidActivity.Type = "Not a valid type.";
         //    //Assert
@@ -164,8 +164,8 @@ namespace HealthGraphNet.Tests.Unit
         public void UpdateActivity_EquipmentNotValid_ArgumentException()
         {
             //Arrange
-            Mock<ClientStub> tokenManager = new Mock<ClientStub>();
-            FitnessActivitiesEndpoint activitiesRequest = new FitnessActivitiesEndpoint(tokenManager.Object, new UsersModel());
+            var client = new Mock<ClientStub>();
+            FitnessActivitiesEndpoint activitiesRequest = new FitnessActivitiesEndpoint(client.Object, new UsersModel());
             //Act
             ValidActivity.Equipment = "Not a valid equipment.";
             //Assert
@@ -176,8 +176,8 @@ namespace HealthGraphNet.Tests.Unit
         public void UpdateActivity_PathTypeNotValid_ArgumentException()
         {
             //Arrange
-            Mock<ClientStub> tokenManager = new Mock<ClientStub>();
-            FitnessActivitiesEndpoint activitiesRequest = new FitnessActivitiesEndpoint(tokenManager.Object, new UsersModel());
+            var client = new Mock<ClientStub>();
+            FitnessActivitiesEndpoint activitiesRequest = new FitnessActivitiesEndpoint(client.Object, new UsersModel());
             //Act
             ValidActivity.Path.First().Type = "Not a valid path type.";
             //Assert
@@ -188,8 +188,8 @@ namespace HealthGraphNet.Tests.Unit
         public void UpdateActivity_OnePathItemInArray_ArgumentException()
         {
             //Arrange
-            Mock<ClientStub> tokenManager = new Mock<ClientStub>();
-            FitnessActivitiesEndpoint activitiesRequest = new FitnessActivitiesEndpoint(tokenManager.Object, new UsersModel());
+            var client = new Mock<ClientStub>();
+            FitnessActivitiesEndpoint activitiesRequest = new FitnessActivitiesEndpoint(client.Object, new UsersModel());
             //Act
             ValidActivity.Path.RemoveAt(1);
             //Assert
@@ -201,8 +201,8 @@ namespace HealthGraphNet.Tests.Unit
         public void UpdateActivity_TypeOtherSecondaryTypeSixtyFiveCharacters_ArgumentException()
         {
             //Arrange
-            Mock<ClientStub> tokenManager = new Mock<ClientStub>();
-            FitnessActivitiesEndpoint activitiesRequest = new FitnessActivitiesEndpoint(tokenManager.Object, new UsersModel());
+            var client = new Mock<ClientStub>();
+            FitnessActivitiesEndpoint activitiesRequest = new FitnessActivitiesEndpoint(client.Object, new UsersModel());
             //Act
             ValidActivity.Type = FitnessActivityType.Other;
             string sixtyFiveCharacterSecondaryType = string.Empty;
@@ -220,8 +220,8 @@ namespace HealthGraphNet.Tests.Unit
         public void CreateActivity_AllPropertiesValid_DoesNotThrowArgumentException()
         {
             //Arrange
-            Mock<ClientStub> tokenManager = new Mock<ClientStub>();
-            FitnessActivitiesEndpoint activitiesRequest = new FitnessActivitiesEndpoint(tokenManager.Object, new UsersModel());
+            var client = new Mock<ClientStub>();
+            FitnessActivitiesEndpoint activitiesRequest = new FitnessActivitiesEndpoint(client.Object, new UsersModel());
             //Act and Assert
             Assert.DoesNotThrowAsync(async () => { await activitiesRequest.CreateActivity(ValidActivityNew); });
         }
@@ -231,7 +231,7 @@ namespace HealthGraphNet.Tests.Unit
         //{
         //    //Arrange
         //    Mock<AccessTokenManagerBaseStub> tokenManager = new Mock<AccessTokenManagerBaseStub>();
-        //    FitnessActivitiesEndpoint activitiesRequest = new FitnessActivitiesEndpoint(tokenManager.Object, new UsersModel());
+        //    FitnessActivitiesEndpoint activitiesRequest = new FitnessActivitiesEndpoint(client.Object, new UsersModel());
         //    //Act
         //    ValidActivityNew.Type = "Not a valid type.";
         //    //Assert
@@ -242,8 +242,8 @@ namespace HealthGraphNet.Tests.Unit
         public void CreateActivity_EquipmentNotValid_ArgumentException()
         {
             //Arrange
-            Mock<ClientStub> tokenManager = new Mock<ClientStub>();
-            FitnessActivitiesEndpoint activitiesRequest = new FitnessActivitiesEndpoint(tokenManager.Object, new UsersModel());
+            var client = new Mock<ClientStub>();
+            FitnessActivitiesEndpoint activitiesRequest = new FitnessActivitiesEndpoint(client.Object, new UsersModel());
             //Act
             ValidActivityNew.Equipment = "Not a valid equipment.";
             //Assert
@@ -254,8 +254,8 @@ namespace HealthGraphNet.Tests.Unit
         public void CreateActivity_PathTypeNotValid_ArgumentException()
         {
             //Arrange
-            Mock<ClientStub> tokenManager = new Mock<ClientStub>();
-            FitnessActivitiesEndpoint activitiesRequest = new FitnessActivitiesEndpoint(tokenManager.Object, new UsersModel());
+            var client = new Mock<ClientStub>();
+            FitnessActivitiesEndpoint activitiesRequest = new FitnessActivitiesEndpoint(client.Object, new UsersModel());
             //Act
             ValidActivityNew.Path.First().Type = "Not a valid path type.";
             //Assert
@@ -266,8 +266,8 @@ namespace HealthGraphNet.Tests.Unit
         public void CreateActivity_OnePathItemInArray_ArgumentException()
         {
             //Arrange
-            Mock<ClientStub> tokenManager = new Mock<ClientStub>();
-            FitnessActivitiesEndpoint activitiesRequest = new FitnessActivitiesEndpoint(tokenManager.Object, new UsersModel());
+            var client = new Mock<ClientStub>();
+            FitnessActivitiesEndpoint activitiesRequest = new FitnessActivitiesEndpoint(client.Object, new UsersModel());
             //Act
             ValidActivityNew.Path.RemoveAt(1);
             //Assert
@@ -279,8 +279,8 @@ namespace HealthGraphNet.Tests.Unit
         public void CreateActivity_TypeOtherSecondaryTypeSixtyFiveCharacters_ArgumentException()
         {
             //Arrange
-            Mock<ClientStub> tokenManager = new Mock<ClientStub>();
-            FitnessActivitiesEndpoint activitiesRequest = new FitnessActivitiesEndpoint(tokenManager.Object, new UsersModel());
+            var client = new Mock<ClientStub>();
+            FitnessActivitiesEndpoint activitiesRequest = new FitnessActivitiesEndpoint(client.Object, new UsersModel());
             //Act
             ValidActivityNew.Type = FitnessActivityType.Other;
             string sixtyFiveCharacterSecondaryType = string.Empty;

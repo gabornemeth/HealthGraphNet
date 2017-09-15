@@ -26,6 +26,8 @@ namespace HealthGraphNet
         protected RestClient RestClient { get; private set; }
         private Func<Task<UsersModel>> _functionGetUser;
         private UsersModel _user; // cache user
+        private IRequestExecutor _requestExecutor;
+
         #endregion
 
         #region Constructors
@@ -34,8 +36,8 @@ namespace HealthGraphNet
         {
             //Initialize the REST client
             RestClient = new RestClient();
-            RestClient.ClearHandlers();
-            RestClient.AddHandler("*", new JsonNETDeserializer());
+            RestClient.ContentHandlers.Clear();
+            RestClient.ContentHandlers.Add("*", new JsonNETDeserializer());
             RestClient.Authenticator = authenticator;
 
             _functionGetUser = () => Task.Run(async () =>
@@ -44,6 +46,13 @@ namespace HealthGraphNet
                     _user = await new UsersEndpoint(this).GetUser();
                 return _user;
             });
+            _requestExecutor = new DefaultRequestExecutor(RestClient);
+        }
+
+        protected Client(IAuthenticator authenticator, IRequestExecutor requestExecutor) : this(authenticator)
+        {
+            if (requestExecutor != null)
+                _requestExecutor = requestExecutor;
         }
 
         #endregion
@@ -80,6 +89,103 @@ namespace HealthGraphNet
 
         #region IRequest Execution
 
+        private class DefaultRequestExecutor : IRequestExecutor
+        {
+            private readonly RestClient _restClient;
+
+            public DefaultRequestExecutor(RestClient restClient)
+            {
+                _restClient = restClient ?? throw new ArgumentNullException(nameof(restClient));
+            }
+
+            /// <summary>
+            /// Synchronous request returning data as T.         
+            /// baseUrl is optional and may be assigned if restClient needs to be anything other than ApiBaseUrl.
+            /// Throws a HealthGraphException if response is anything other than OK.
+            /// </summary>
+            /// <typeparam name="T"></typeparam>
+            /// <param name="request"></param>
+            /// <param name="baseUrl"></param>
+            /// <returns></returns>
+            public async Task<T> Execute<T>(IRestRequest request, string baseUrl = null, HttpStatusCode? expectedStatusCode = null) where T : new()
+            {
+                if (string.IsNullOrEmpty(baseUrl) == false)
+                {
+                    _restClient.BaseUrl = new Uri(baseUrl);
+                }
+                else
+                {
+                    _restClient.BaseUrl = new Uri(ApiBaseUrl);
+                }
+                IRestResponse<T> response = await _restClient.Execute<T>(request);
+                //If a particular status code is expected, check for it, otherwise assume we are looking for an OK
+                HttpStatusCode codeToCheckAgainst = expectedStatusCode.HasValue ? expectedStatusCode.Value : HttpStatusCode.OK;
+                if (response.StatusCode != codeToCheckAgainst)
+                {
+                    throw new HealthGraphException(response);
+                }
+                return response.Data;
+            }
+
+            /// <summary>
+            /// Synchronous request.  baseUrl is optional and may be assigned if restClient eneds to be anything other than ApiBaseUrl.
+            /// Throws a HealthGraphException if response is anything other than OK.
+            /// No data is returned.
+            /// </summary>
+            /// <param name="request"></param>
+            /// <param name="baseUrl"></param>
+            public async Task Execute(IRestRequest request, string baseUrl = null, HttpStatusCode? expectedStatusCode = null)
+            {
+                if (string.IsNullOrEmpty(baseUrl) == false)
+                {
+                    _restClient.BaseUrl = new Uri(baseUrl);
+                }
+                else
+                {
+                    _restClient.BaseUrl = new Uri(ApiBaseUrl);
+                }
+                IRestResponse response = await _restClient.Execute(request);
+                //If a particular status code is expected, check for it, otherwise assume we are looking for an OK
+                HttpStatusCode codeToCheckAgainst = expectedStatusCode.HasValue ? expectedStatusCode.Value : HttpStatusCode.OK;
+                if (response.StatusCode != codeToCheckAgainst)
+                {
+                    throw new HealthGraphException(response);
+                }
+            }
+
+            /// <summary>
+            /// Synchronous request for creation of a resource.  Returns the Location header if present, otherwise returns null.
+            /// Throws a HealthGraphException if response is anything other than CREATED.
+            /// </summary>
+            /// <param name="request"></param>
+            /// <param name="headerNameOfInterest"></param>
+            /// <param name="baseUrl"></param>
+            /// <returns></returns>
+            public async Task<string> ExecuteCreate(IRestRequest request, string baseUrl = null)
+            {
+                if (string.IsNullOrEmpty(baseUrl) == false)
+                {
+                    _restClient.BaseUrl = new Uri(baseUrl);
+                }
+                else
+                {
+                    _restClient.BaseUrl = new Uri(ApiBaseUrl);
+                }
+                IRestResponse response = await _restClient.Execute(request);
+                if (response.StatusCode != HttpStatusCode.Created)
+                {
+                    throw new HealthGraphException(response);
+                }
+                IEnumerable<string> locationHeaderValues = null;
+                if (response.Headers.TryGetValues(LocationHeaderName, out locationHeaderValues))
+                {
+                    return locationHeaderValues.First();
+                }
+
+                return null;
+            }
+        }
+
         /// <summary>
         /// Synchronous request returning data as T.         
         /// baseUrl is optional and may be assigned if restClient needs to be anything other than ApiBaseUrl.
@@ -89,24 +195,9 @@ namespace HealthGraphNet
         /// <param name="request"></param>
         /// <param name="baseUrl"></param>
         /// <returns></returns>
-        internal virtual async Task<T> Execute<T>(IRestRequest request, string baseUrl = null, HttpStatusCode? expectedStatusCode = null) where T : new()
+        internal virtual Task<T> Execute<T>(IRestRequest request, string baseUrl = null, HttpStatusCode? expectedStatusCode = null) where T : new()
         {
-            if (string.IsNullOrEmpty(baseUrl) == false)
-            {
-                RestClient.BaseUrl = new Uri(baseUrl);
-            }
-            else
-            {
-                RestClient.BaseUrl = new Uri(ApiBaseUrl);
-            }
-            IRestResponse<T> response = await RestClient.Execute<T>(request);
-            //If a particular status code is expected, check for it, otherwise assume we are looking for an OK
-            HttpStatusCode codeToCheckAgainst = expectedStatusCode.HasValue ? expectedStatusCode.Value : HttpStatusCode.OK;
-            if (response.StatusCode != codeToCheckAgainst)
-            {
-                throw new HealthGraphException(response);
-            }
-            return response.Data;
+            return _requestExecutor.Execute<T>(request, baseUrl, expectedStatusCode);
         }
 
         /// <summary>
@@ -116,23 +207,9 @@ namespace HealthGraphNet
         /// </summary>
         /// <param name="request"></param>
         /// <param name="baseUrl"></param>
-        internal virtual async Task Execute(IRestRequest request, string baseUrl = null, HttpStatusCode? expectedStatusCode = null)
+        internal virtual Task Execute(IRestRequest request, string baseUrl = null, HttpStatusCode? expectedStatusCode = null)
         {
-            if (string.IsNullOrEmpty(baseUrl) == false)
-            {
-                RestClient.BaseUrl = new Uri(baseUrl);
-            }
-            else
-            {
-                RestClient.BaseUrl = new Uri(ApiBaseUrl);
-            }
-            IRestResponse response = await RestClient.Execute(request);
-            //If a particular status code is expected, check for it, otherwise assume we are looking for an OK
-            HttpStatusCode codeToCheckAgainst = expectedStatusCode.HasValue ? expectedStatusCode.Value : HttpStatusCode.OK;
-            if (response.StatusCode != codeToCheckAgainst)
-            {
-                throw new HealthGraphException(response);
-            }
+            return _requestExecutor.Execute(request, baseUrl, expectedStatusCode);
         }
 
         /// <summary>
@@ -143,30 +220,11 @@ namespace HealthGraphNet
         /// <param name="headerNameOfInterest"></param>
         /// <param name="baseUrl"></param>
         /// <returns></returns>
-        internal virtual async Task<string> ExecuteCreate(IRestRequest request, string baseUrl = null)
+        internal virtual Task<string> ExecuteCreate(IRestRequest request, string baseUrl = null)
         {
-            if (string.IsNullOrEmpty(baseUrl) == false)
-            {
-                RestClient.BaseUrl = new Uri(baseUrl);
-            }
-            else
-            {
-                RestClient.BaseUrl = new Uri(ApiBaseUrl);
-            }
-            IRestResponse response = await RestClient.Execute(request);
-            if (response.StatusCode != HttpStatusCode.Created)
-            {
-                throw new HealthGraphException(response);
-            }
-            IEnumerable<string> locationHeaderValues = null;
-            if (response.Headers.TryGetValues(LocationHeaderName, out locationHeaderValues))
-            {
-                return locationHeaderValues.First();
-            }
-
-            return null;
-
-            #endregion
+            return _requestExecutor.ExecuteCreate(request, baseUrl);
         }
+
+        #endregion
     }
 }

@@ -90,7 +90,7 @@
     <Otherwise />
   </Choose>
   <ItemGroup>
-    <Compile Include="Integration\ClientSetupBase.cs" />
+    <Compile Include="Integration\ClientSetup.cs" />
     <Compile Include="Integration\Endpoints\FitnessActivitiesEndpointTest.cs" />
     <Compile Include="Integration\Endpoints\ProfileEndpointTest.cs" />
     <Compile Include="Integration\Endpoints\UsersEndpointTest.cs" />
@@ -114,12 +114,6 @@
     <Compile Include="Unit\RestSharp\ValidateHelperTest.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\HealthGraphNet.PCL\HealthGraphNet.PCL.csproj">
-      <Project>{6bc608fa-30e3-4097-ac5b-3043d8c09834}</Project>
-      <Name>HealthGraphNet.PCL</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <None Include="app.config">
       <SubType>Designer</SubType>
     </None>
@@ -127,6 +121,12 @@
   </ItemGroup>
   <ItemGroup>
     <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\HealthGraphNet.NetStandard\HealthGraphNet.NetStandard.csproj">
+      <Project>{0de94a2d-ce66-4643-b454-53838674bd43}</Project>
+      <Name>HealthGraphNet.NetStandard</Name>
+    </ProjectReference>
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">

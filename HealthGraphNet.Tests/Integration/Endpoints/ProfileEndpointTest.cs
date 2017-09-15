@@ -9,8 +9,8 @@ using System.Threading.Tasks;
 
 namespace HealthGraphNet.Tests.Integration
 {
-    [TestFixture()]
-    public class ProfileEndpointTest : ClientSetupBase
+    [TestFixture]
+    public class ProfileEndpointTest : ClientSetup
     {
         #region Fields, Properties and Setup
 
@@ -19,11 +19,11 @@ namespace HealthGraphNet.Tests.Integration
         protected IProfileEndpoint ProfileRequest { get; set; }
 
         [SetUp]
-        public void Init()
+        public void Setup()
         {
-            UserRequest = new UsersEndpoint(TokenManager);
+            UserRequest = new UsersEndpoint(Client);
             var user = UserRequest.GetUser().Result;
-            ProfileRequest = new ProfileEndpoint(TokenManager, user);
+            ProfileRequest = new ProfileEndpoint(Client, user);
         }
 
         #endregion

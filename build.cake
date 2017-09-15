@@ -111,10 +111,10 @@ Task("Restore")
 
 Task("Build")
     .Description("Builds all the different parts of the project.")
-		.WithCriteria(!skipBuild)
+	.WithCriteria(!skipBuild)
     .IsDependentOn("Clean")
     .IsDependentOn("Restore")
-		.IsDependentOn("UpdateVersion")
+	.IsDependentOn("UpdateVersion")
     .Does(() =>
 {
 	if (buildSettings.Version.AutoIncrementVersion)
@@ -125,12 +125,12 @@ Task("Build")
     // Build all projects.
     // iOS project cannot be built using .sln file on Mac OS X, using XBuild
 	// reason: facade assemblies not referenced!
-    foreach(var project in buildSettings.Build.GetProjectFiles(Context))
+    foreach(var solution in solutions)
     {
-        Information("Building {0}", project);
-		if (project.FullPath.ToLower().Contains("sample"))
+        Information("Building {0}", solution);
+		if (solution.FullPath.ToLower().Contains("sample"))
 		{
-			Information("Skipping sample project {0}", project);
+			Information("Skipping sample solution {0}", solution);
 			continue;
 		}
 
@@ -146,10 +146,11 @@ Task("Build")
 					var msBuildSettings = new MSBuildSettings {
 						MaxCpuCount = 1,
 						Configuration = configuration,
-						PlatformTarget = PlatformTarget.MSIL
+						PlatformTarget = PlatformTarget.MSIL,
+						ToolVersion = MSBuildToolVersion.VS2017
 					}.WithProperty("TreatWarningsAsErrors",buildSettings.Build.TreatWarningsAsErrors.ToString())
 					 .WithTarget("Build");
-				 	MSBuild(project, msBuildSettings);
+				 	MSBuild(solution, msBuildSettings);
 				}
 				else
 				{
@@ -157,7 +158,7 @@ Task("Build")
 						Configuration = configuration
 					}.WithProperty("TreatWarningsAsErrors",buildSettings.Build.TreatWarningsAsErrors.ToString())
 					 .WithTarget("Build");
-					XBuild(project, settings);
+					XBuild(solution, settings);
 				}
     }
 });
@@ -173,7 +174,8 @@ Task("Run-Unit-Tests")
 
 Task("Package")
     .Description("Packages all nuspec files into nupkg packages.")
-    .IsDependentOn("Run-Unit-Tests")
+    .IsDependentOn("Build")
+    //.IsDependentOn("Run-Unit-Tests")
     .Does(() =>
 {
 	var artifactsPath = Directory(buildSettings.NuGet.ArtifactsPath);
@@ -181,7 +183,7 @@ Task("Package")
 
 	CreateDirectory(artifactsPath);
 
-  Information("Nuspec path: " + buildSettings.NuGet.NuSpecFileSpec);
+    Information("Nuspec path: " + buildSettings.NuGet.NuSpecFileSpec);
 	var nuspecFiles = GetFiles(buildSettings.NuGet.NuSpecFileSpec);
 	foreach(var nsf in nuspecFiles)
 	{

@@ -44,8 +44,8 @@ namespace HealthGraphNet.Tests.Unit
         {
             //Arrange
             var validPath = "/test/";
-            Mock<ClientStub> tokenManager = new Mock<ClientStub>();
-            GeneralMeasurementsEndpoint measurementRequest = new GeneralMeasurementsEndpoint(tokenManager.Object, new UsersModel { GeneralMeasurements = validPath });
+            var client = new Mock<ClientStub>();
+            GeneralMeasurementsEndpoint measurementRequest = new GeneralMeasurementsEndpoint(client.Object, new UsersModel { GeneralMeasurements = validPath });
             //Act and Assert
             Assert.DoesNotThrowAsync(async() => { await measurementRequest.GetMeasurement(validPath); });
         }
@@ -55,8 +55,8 @@ namespace HealthGraphNet.Tests.Unit
         {
             //Arrange
             var validPath = "/test/";
-            Mock<ClientStub> tokenManager = new Mock<ClientStub>();
-            GeneralMeasurementsEndpoint measurementRequest = new GeneralMeasurementsEndpoint(tokenManager.Object, new UsersModel { GeneralMeasurements = validPath });
+            var client = new Mock<ClientStub>();
+            GeneralMeasurementsEndpoint measurementRequest = new GeneralMeasurementsEndpoint(client.Object, new UsersModel { GeneralMeasurements = validPath });
             //Act and Assert
             Assert.ThrowsAsync(typeof(ArgumentException), async() => { await measurementRequest.GetMeasurement("Not validPath."); });
         }
@@ -66,8 +66,8 @@ namespace HealthGraphNet.Tests.Unit
         {
             //Arrange
             var validPath = "/test/";
-            Mock<ClientStub> tokenManager = new Mock<ClientStub>();
-            GeneralMeasurementsEndpoint measurementRequest = new GeneralMeasurementsEndpoint(tokenManager.Object, new UsersModel { GeneralMeasurements = validPath });
+            var client = new Mock<ClientStub>();
+            GeneralMeasurementsEndpoint measurementRequest = new GeneralMeasurementsEndpoint(client.Object, new UsersModel { GeneralMeasurements = validPath });
             //Act and Assert
             Assert.DoesNotThrowAsync(async() => { await measurementRequest.DeleteMeasurement(validPath); });
         }
@@ -77,8 +77,8 @@ namespace HealthGraphNet.Tests.Unit
         {
             //Arrange
             var validPath = "/test/";
-            Mock<ClientStub> tokenManager = new Mock<ClientStub>();
-            GeneralMeasurementsEndpoint measurementRequest = new GeneralMeasurementsEndpoint(tokenManager.Object, new UsersModel { GeneralMeasurements = validPath });
+            var client = new Mock<ClientStub>();
+            GeneralMeasurementsEndpoint measurementRequest = new GeneralMeasurementsEndpoint(client.Object, new UsersModel { GeneralMeasurements = validPath });
             //Act and Assert
             Assert.ThrowsAsync(typeof(ArgumentException), async() => { await measurementRequest.DeleteMeasurement("Not validPath."); });
         }
@@ -87,8 +87,8 @@ namespace HealthGraphNet.Tests.Unit
         public void UpdateMeasurement_AllPropertiesValid_DoesNotThrowArgumentException()
         {
             //Arrange
-            Mock<ClientStub> tokenManager = new Mock<ClientStub>();
-            GeneralMeasurementsEndpoint measurementRequest = new GeneralMeasurementsEndpoint(tokenManager.Object, new UsersModel());
+            var client = new Mock<ClientStub>();
+            GeneralMeasurementsEndpoint measurementRequest = new GeneralMeasurementsEndpoint(client.Object, new UsersModel());
             //Act and Assert
             Assert.DoesNotThrowAsync(async() => { await measurementRequest.UpdateMeasurement(ValidMeasurement); });
         }
@@ -97,8 +97,8 @@ namespace HealthGraphNet.Tests.Unit
         public void UpdateMeasurement_AllMeasurementsNull_ArgumentException()
         {
             //Arrange
-            Mock<ClientStub> tokenManager = new Mock<ClientStub>();
-            GeneralMeasurementsEndpoint measurementRequest = new GeneralMeasurementsEndpoint(tokenManager.Object, new UsersModel());
+            var client = new Mock<ClientStub>();
+            GeneralMeasurementsEndpoint measurementRequest = new GeneralMeasurementsEndpoint(client.Object, new UsersModel());
             //Act            
             ValidMeasurement.BloodCalcium = null;
             ValidMeasurement.BloodChromium = null;
@@ -132,8 +132,8 @@ namespace HealthGraphNet.Tests.Unit
         public void CreateMeasurement_AllPropertiesValid_DoesNotThrowArgumentException()
         {
             //Arrange
-            Mock<ClientStub> tokenManager = new Mock<ClientStub>();
-            GeneralMeasurementsEndpoint measurementRequest = new GeneralMeasurementsEndpoint(tokenManager.Object, new UsersModel());
+            var client = new Mock<ClientStub>();
+            GeneralMeasurementsEndpoint measurementRequest = new GeneralMeasurementsEndpoint(client.Object, new UsersModel());
             //Act and Assert
             Assert.DoesNotThrowAsync(async () => { await measurementRequest.CreateMeasurement(ValidMeasurementNew); });
         }
@@ -142,8 +142,8 @@ namespace HealthGraphNet.Tests.Unit
         public void CreateMeasurement_AllMeasurementsNull_ArgumentException()
         {
             //Arrange
-            Mock<ClientStub> tokenManager = new Mock<ClientStub>();
-            GeneralMeasurementsEndpoint measurementRequest = new GeneralMeasurementsEndpoint(tokenManager.Object, new UsersModel());
+            var client = new Mock<ClientStub>();
+            GeneralMeasurementsEndpoint measurementRequest = new GeneralMeasurementsEndpoint(client.Object, new UsersModel());
             //Act            
             ValidMeasurementNew.BloodCalcium = null;
             ValidMeasurementNew.BloodChromium = null;
