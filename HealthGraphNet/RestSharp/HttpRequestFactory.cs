@@ -2,7 +2,7 @@
 using RestSharp.Portable.HttpClient;
 using RestSharp.Portable.OAuth2.Infrastructure;
 
-namespace HealthGraphNet.Samples.Web
+namespace HealthGraphNet.RestSharp
 {
     public class HttpRequestFactory : IRequestFactory
     {

@@ -5,6 +5,7 @@ using System.Web;
 using Foundation;
 using HealthGraphNet.Models;
 using HealthGraphNet.RestSharp;
+using MonoTouch.Dialog;
 using UIKit;
 
 namespace HealthGraphNet.Samples.MonoTouch
@@ -26,7 +27,7 @@ namespace HealthGraphNet.Samples.MonoTouch
 		protected string Code { get; set; }
 
 		//HealthGraphNet Objects
-		protected AccessTokenManager TokenManager { get; set; }
+		protected Client Client { get; set; }
 		protected UsersModel User { get; set; }
 		protected ProfileModel Profile { get; set; }
 
@@ -88,14 +89,14 @@ namespace HealthGraphNet.Samples.MonoTouch
 					{
 						//We've received an authorization code - initialize the token manager to get a create a token
 						Code = currentUrl.Substring(currentUrl.IndexOf(CodeIdentifier) + CodeIdentifier.Length);
-						TokenManager = new AccessTokenManager(new WebViewAuthenticator(HealthGraphClient.Create(ClientId, ClientSecret, RequestUri)));
+                        Client = CreateClient();
 						InvokeOnMainThread(() => {
 							UIApplication.SharedApplication.NetworkActivityIndicatorVisible = true;
 						});
 						//TokenManager.InitAccessToken(Code);
-						var userRequest = new UsersEndpoint(TokenManager);
+						var userRequest = new UsersEndpoint(Client);
 						User = await userRequest.GetUser();
-						var profileRequest = new ProfileEndpoint(TokenManager, User);
+						var profileRequest = new ProfileEndpoint(Client, User);
 						Profile = await profileRequest.GetProfile();
 						InvokeOnMainThread(() => {
 							UIApplication.SharedApplication.NetworkActivityIndicatorVisible = false;
@@ -122,5 +123,22 @@ namespace HealthGraphNet.Samples.MonoTouch
 		}
 
 		#endregion
-	}
+
+        private Client CreateClient()
+        {
+            var config = new global::RestSharp.Portable.OAuth2.Configuration.RuntimeClientConfiguration
+            {
+                IsEnabled = false,
+                ClientId = ClientId,
+                ClientSecret = ClientSecret,
+                RedirectUri = RequestUri
+            };
+
+            var oAuth2Client = new HealthGraphClient(new HttpRequestFactory(), config);
+            var authenticator = new WebViewAuthenticator(oAuth2Client);
+
+            return new Client(authenticator);
+
+        }
+    }
 }

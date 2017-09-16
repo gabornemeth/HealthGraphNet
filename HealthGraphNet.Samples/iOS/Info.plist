@@ -27,7 +27,7 @@
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
 	<key>CFBundleIdentifier</key>
-	<string></string>
+	<string>com.healthgraphnet.sample</string>
 	<key>CFBundleShortVersionString</key>
 	<string></string>
 	<key>CFBundleIconFiles</key>
